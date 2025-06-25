@@ -52,8 +52,8 @@ public class FilmController {
             log.info("Данные фильма с id {} обновлены", film.getId());
             return film;
         } else {
-            log.warn("Фильма с id {} нету", film.getId());
-            throw new ValidationException("Фильма с таким id нету");
+            log.warn("Фильма с id {} нет в списке", film.getId());
+            throw new ValidationException(String.format("Фильма с id %d нет в списке", film.getId()));
         }
     }
 

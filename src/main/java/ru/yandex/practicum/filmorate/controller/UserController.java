@@ -52,7 +52,7 @@ public class UserController {
             return user;
         } else {
             log.warn("Пользователя с id {} нету", user.getId());
-            throw new ValidationException("Пользователя с таким id нету");
+            throw new ValidationException(String.format("Пользователя с id %d не существует", user.getId()));
         }
     }
 
