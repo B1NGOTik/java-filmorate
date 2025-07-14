@@ -6,8 +6,10 @@ import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,19 +22,19 @@ public class InMemoryFilmStorage implements FilmStorage {
     @Override
     public List<Film> findFilms() {
         log.info("Запрошен список всех фильмов");
-        return List.copyOf(films.values());
+        return new ArrayList<>(films.values());
     }
 
     @Override
     public Film findFilmById(Long id) {
-        if(!films.containsKey(id)) {
+        if (!films.containsKey(id)) {
             throw new NotFoundException(String.format("Пользователь с id %d не найден", id));
         }
         return films.get(id);
     }
 
     @Override
-    public Film createFilm (Film film) {
+    public Film createFilm(Film film) {
         if (film.getName() == null || film.getName().isBlank()) {
             log.warn("Имя не может быть пустым");
             throw new ValidationException("Имя не может быть пустым");
@@ -63,7 +65,7 @@ public class InMemoryFilmStorage implements FilmStorage {
             return film;
         } else {
             log.warn("Фильма с id {} нет в списке", film.getId());
-            throw new ValidationException(String.format("Фильма с id %d нет в списке", film.getId()));
+            throw new NotFoundException(String.format("Фильма с id %d нет в списке", film.getId()));
         }
     }
 
