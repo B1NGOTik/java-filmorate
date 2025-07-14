@@ -10,7 +10,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    UserService userService;
+    private final String friendsPath = "/{id}/friends";
+    private UserService userService;
 
     @Autowired
     public UserController(UserService userService) {
@@ -37,22 +38,22 @@ public class UserController {
         return userService.updateUser(user);
     }
 
-    @PutMapping("/{id}/friends/{friendId}")
+    @PutMapping(friendsPath + "/{friendId}")
     public List<User> makeFriends(@PathVariable Long id, @PathVariable Long friendId) {
         return userService.makeFriends(id, friendId);
     }
 
-    @DeleteMapping("/{id}/friends/{friendId}")
+    @DeleteMapping(friendsPath + "/{friendId}")
     public List<User> alienateFriends(@PathVariable Long id, @PathVariable Long friendId) {
         return userService.alienateFriends(id, friendId);
     }
 
-    @GetMapping("/{id}/friends")
+    @GetMapping(friendsPath)
     public List<User> findFriends(@PathVariable Long id) {
         return userService.getUserFriends(id);
     }
 
-    @GetMapping("/{id}/friends/common/{otherId}")
+    @GetMapping(friendsPath + "/common/{otherId}")
     public List<User> findCommonFriends(@PathVariable Long id, @PathVariable Long otherId) {
         return userService.getCommonFriends(id, otherId);
     }

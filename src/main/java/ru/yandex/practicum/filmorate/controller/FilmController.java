@@ -10,7 +10,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/films")
 public class FilmController {
-    FilmService filmService;
+    private final String likePath = "/{id}/like/{userId}";
+    private FilmService filmService;
 
     @Autowired
     public FilmController(FilmService filmService) {
@@ -37,12 +38,12 @@ public class FilmController {
         return filmService.updateFilm(film);
     }
 
-    @PutMapping("/{id}/like/{userId}")
+    @PutMapping(likePath)
     public Film likeFilm(@PathVariable Long id, @PathVariable Long userId) {
         return filmService.likeFilm(id, userId);
     }
 
-    @DeleteMapping("/{id}/like/{userId}")
+    @DeleteMapping(likePath)
     public Film removeLike(@PathVariable Long id, @PathVariable Long userId) {
         return filmService.removeLike(id, userId);
     }
