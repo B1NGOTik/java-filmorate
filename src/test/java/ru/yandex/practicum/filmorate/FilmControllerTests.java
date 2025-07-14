@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.filmorate.controller.FilmController;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.FilmService;
@@ -179,7 +180,7 @@ class FilmControllerTests {
         film.setReleaseDate(LocalDate.of(2000, 1, 1));
         film.setDuration(120L);
 
-        assertThrows(ValidationException.class, () -> filmController.update(film));
+        assertThrows(NotFoundException.class, () -> filmController.update(film));
     }
 
     @Test
