@@ -3,20 +3,26 @@ package ru.yandex.practicum.filmorate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.filmorate.controller.UserController;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.service.UserService;
+import ru.yandex.practicum.filmorate.storage.user.InMemoryUserStorage;
 
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserControllerTests {
-
+    private InMemoryUserStorage userStorage;
+    private UserService userService;
     private UserController userController;
 
     @BeforeEach
     void setUp() {
-        userController = new UserController();
+        userStorage = new InMemoryUserStorage();
+        userService = new UserService(userStorage);
+        userController = new UserController(userService);
     }
 
     @Test
@@ -146,7 +152,7 @@ class UserControllerTests {
         user.setLogin("testlogin");
         user.setBirthday(LocalDate.now().minusYears(20));
 
-        assertThrows(ValidationException.class, () -> userController.update(user));
+        assertThrows(NotFoundException.class, () -> userController.update(user));
     }
 
     @Test
