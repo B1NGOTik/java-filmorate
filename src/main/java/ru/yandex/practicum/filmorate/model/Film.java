@@ -13,7 +13,10 @@ public class Film {
     private String description;
     private LocalDate releaseDate;
     private Long duration;
+    private Set<String> genres = new HashSet<>();
+    private String rating;
     private Set<Long> likes = new HashSet<>();
+
 
     public Long addLike(Long id) {
         likes.add(id);
