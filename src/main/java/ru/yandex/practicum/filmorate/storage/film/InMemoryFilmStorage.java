@@ -11,9 +11,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
-@Component
+@Component("inMemoryFilmStorage")
 public class InMemoryFilmStorage implements FilmStorage {
     @Getter
     private HashMap<Long, Film> films = new HashMap<>();
@@ -25,15 +26,15 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     @Override
-    public Film findFilmById(Long id) {
+    public Optional<Film> findFilmById(Long id) {
         if (!films.containsKey(id)) {
             throw new NotFoundException(String.format("Пользователь с id %d не найден", id));
         }
-        return films.get(id);
+        return Optional.of(films.get(id));
     }
 
     @Override
-    public Film createFilm(Film film) {
+    public Optional<Film> createFilm(Film film) {
         if (film.getName() == null || film.getName().isBlank()) {
             log.warn("Имя не может быть пустым");
             throw new ValidationException("Имя не может быть пустым");
@@ -53,19 +54,29 @@ public class InMemoryFilmStorage implements FilmStorage {
         film.setId(getNextId());
         films.put(film.getId(), film);
         log.info("Записан фильм с названием {}", film.getName());
-        return film;
+        return Optional.of(film);
     }
 
     @Override
-    public Film updateFilm(Film film) {
+    public Optional<Film> updateFilm(Film film) {
         if (films.containsKey(film.getId())) {
             films.put(film.getId(), film);
             log.info("Данные фильма с id {} обновлены", film.getId());
-            return film;
+            return Optional.of(film);
         } else {
             log.warn("Фильма с id {} нет в списке", film.getId());
             throw new NotFoundException(String.format("Фильма с id %d нет в списке", film.getId()));
         }
+    }
+
+    @Override
+    public Optional<Film> likeFilm(Long filmId, Long userId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Film> removeLike(Long filmId, Long userId) {
+        return Optional.empty();
     }
 
     private long getNextId() {

@@ -10,6 +10,7 @@ import ru.yandex.practicum.filmorate.model.User;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @Getter
 @Slf4j
@@ -24,15 +25,15 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     @Override
-    public User findUserById(Long id) {
+    public Optional<User> findUserById(Long id) {
         if (!users.containsKey(id)) {
             throw new NotFoundException(String.format("Пользователь с id %d не найден", id));
         }
-        return users.get(id);
+        return Optional.of(users.get(id));
     }
 
     @Override
-    public User createUser(User user) {
+    public Optional<User> createUser(User user) {
         if (!user.getEmail().contains("@")) {
             log.warn("Некорректный вид email");
             throw new ValidationException("Некорректный вид email");
@@ -51,19 +52,39 @@ public class InMemoryUserStorage implements UserStorage {
         user.setId(getNextId());
         users.put(user.getId(), user);
         log.info("Был создан пользователь с именем {}", user.getName());
-        return user;
+        return Optional.of(user);
     }
 
     @Override
-    public User updateUser(User user) {
+    public Optional<User> updateUser(User user) {
         if (users.containsKey(user.getId())) {
             users.put(user.getId(), user);
             log.info("Данные пользователя с id {} обновлены", user.getId());
-            return user;
+            return Optional.of(user);
         } else {
-            log.warn("Пользователя с id {} нету", user.getId());
+            log.warn("Пользователя с id {} нет", user.getId());
             throw new NotFoundException(String.format("Пользователя с id %d не существует", user.getId()));
         }
+    }
+
+    @Override
+    public Optional<User> addFriend(Long user_id, Long friend_id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public List<User> getFriends(Long user_id) {
+        return List.of();
+    }
+
+    @Override
+    public Optional<User> alienateFriends(Long userId, Long friendId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public List<User> getCommonFriends(Long user1Id, Long user2Id) {
+        return List.of();
     }
 
     private long getNextId() {
