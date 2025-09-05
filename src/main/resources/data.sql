@@ -1,23 +1,12 @@
-INSERT INTO film_ratings (name)
-SELECT 'G' WHERE NOT EXISTS (SELECT 1 FROM film_ratings WHERE name = 'G')
-UNION ALL
-SELECT 'PG' WHERE NOT EXISTS (SELECT 1 FROM film_ratings WHERE name = 'PG')
-UNION ALL
-SELECT 'PG-13' WHERE NOT EXISTS (SELECT 1 FROM film_ratings WHERE name = 'PG-13')
-UNION ALL
-SELECT 'R' WHERE NOT EXISTS (SELECT 1 FROM film_ratings WHERE name = 'R')
-UNION ALL
-SELECT 'NC-17' WHERE NOT EXISTS (SELECT 1 FROM film_ratings WHERE name = 'NC-17');
+MERGE INTO film_ratings (rating_id, name) KEY (rating_id) VALUES (1, 'G');
+MERGE INTO film_ratings (rating_id, name) KEY (rating_id) VALUES (2, 'PG');
+MERGE INTO film_ratings (rating_id, name) KEY (rating_id) VALUES (3, 'PG-13');
+MERGE INTO film_ratings (rating_id, name) KEY (rating_id) VALUES (4, 'R');
+MERGE INTO film_ratings (rating_id, name) KEY (rating_id) VALUES (5, 'NC-17');
 
-INSERT INTO genres (name)
-SELECT 'Комедия' WHERE NOT EXISTS (SELECT 1 FROM genres WHERE name = 'Комедия')
-UNION ALL
-SELECT 'Драма' WHERE NOT EXISTS (SELECT 1 FROM genres WHERE name = 'Драма')
-UNION ALL
-SELECT 'Мультфильм' WHERE NOT EXISTS (SELECT 1 FROM genres WHERE name = 'Мультфильм')
-UNION ALL
-SELECT 'Триллер' WHERE NOT EXISTS (SELECT 1 FROM genres WHERE name = 'Триллер')
-UNION ALL
-SELECT 'Документальный' WHERE NOT EXISTS (SELECT 1 FROM genres WHERE name = 'Документальный')
-UNION ALL
-SELECT 'Боевик' WHERE NOT EXISTS (SELECT 1 FROM genres WHERE name = 'Боевик');
+MERGE INTO genres (genre_id, name) KEY (genre_id) VALUES (1, 'РљРѕРјРµРґРёСЏ');
+MERGE INTO genres (genre_id, name) KEY (genre_id) VALUES (2, 'Р”СЂР°РјР°');
+MERGE INTO genres (genre_id, name) KEY (genre_id) VALUES (3, 'РњСѓР»СЊС‚С„РёР»СЊРј');
+MERGE INTO genres (genre_id, name) KEY (genre_id) VALUES (4, 'РўСЂРёР»Р»РµСЂ');
+MERGE INTO genres (genre_id, name) KEY (genre_id) VALUES (5, 'Р”РѕРєСѓРјРµРЅС‚Р°Р»СЊРЅС‹Р№');
+MERGE INTO genres (genre_id, name) KEY (genre_id) VALUES (6, 'Р‘РѕРµРІРёРє');
