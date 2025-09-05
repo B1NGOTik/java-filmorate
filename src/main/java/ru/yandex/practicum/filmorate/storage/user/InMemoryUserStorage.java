@@ -68,12 +68,12 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     @Override
-    public Optional<User> addFriend(Long user_id, Long friend_id) {
+    public Optional<User> addFriend(Long userId, Long friendId) {
         return Optional.empty();
     }
 
     @Override
-    public List<User> getFriends(Long user_id) {
+    public List<User> getFriends(Long userId) {
         return List.of();
     }
 
