@@ -17,7 +17,7 @@ import java.util.Optional;
 @Component("inMemoryFilmStorage")
 public class InMemoryFilmStorage implements FilmStorage {
     @Getter
-    private HashMap<Long, Film> films = new HashMap<>();
+    private final HashMap<Long, Film> films = new HashMap<>();
 
     @Override
     public List<Film> findFilms() {

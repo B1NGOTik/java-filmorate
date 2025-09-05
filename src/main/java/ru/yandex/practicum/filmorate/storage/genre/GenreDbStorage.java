@@ -12,9 +12,9 @@ import java.util.Optional;
 
 @Repository("genreDbStorage")
 public class GenreDbStorage extends BaseRepository {
-    private final static String GET_ALL_GENRES_QUERY = "SELECT * FROM genres";
-    private final static String GET_GENRE_BY_ID_QUERY = "SELECT * FROM genres WHERE genre_id = ?";
-    private final static String GET_GENRES_COUNT_QUERY = "SELECT COUNT(genre_id) FROM genres";
+    private static final String GET_ALL_GENRES_QUERY = "SELECT * FROM genres";
+    private static final String GET_GENRE_BY_ID_QUERY = "SELECT * FROM genres WHERE genre_id = ?";
+    private static final String GET_GENRES_COUNT_QUERY = "SELECT COUNT(genre_id) FROM genres";
 
     public GenreDbStorage(JdbcTemplate jdbc, RowMapper<Genre> mapper) {
         super(jdbc, mapper);
