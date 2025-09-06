@@ -74,7 +74,7 @@ public class UserDbStorage extends BaseRepository implements UserStorage {
     @Override
     public Optional<User> updateUser(User user) {
         if (findUserById(user.getId()).isEmpty()) {
-            throw new NotFoundException("Пользователя с таким id не существует");
+            throw new NotFoundException("Пользователя с указанным id не существует");
         }
         update(UPDATE_USER_QUERY,
                 user.getLogin(),
@@ -99,7 +99,7 @@ public class UserDbStorage extends BaseRepository implements UserStorage {
     @Override
     public List<User> getFriends(Long userId) {
         if (findUserById(userId).isEmpty()) {
-            throw new NotFoundException("Пользователя с таким id не существует");
+            throw new NotFoundException("Пользователя с указанным id не существует");
         }
         List<User> userFriends = new ArrayList<>();
         List<Long> friendsIds = jdbc.queryForList(GET_USER_FRIENDS_IDS_QUERY, Long.class, userId);
@@ -112,10 +112,10 @@ public class UserDbStorage extends BaseRepository implements UserStorage {
     @Override
     public Optional<User> alienateFriends(Long userId, Long friendId) {
         if (findUserById(userId).isEmpty()) {
-            throw new NotFoundException("Пользователя с таким id не существует");
+            throw new NotFoundException("Пользователя с указанным id не существует");
         }
         if (findUserById(friendId).isEmpty()) {
-            throw new NotFoundException("Друга с таким id не существует");
+            throw new NotFoundException("Друга с указанным id не существует");
         }
         if (!getFriends(userId).contains(findUserById(friendId).get())) {
             throw new NoContentException("Пользователь не является другом");

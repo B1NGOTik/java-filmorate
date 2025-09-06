@@ -75,7 +75,7 @@ public class FilmDbStorage extends BaseRepository implements FilmStorage {
             throw new ValidationException("Длительность фильма должна быть больше нуля");
         }
         if (film.getMpa().getId() > getMpaCount()) {
-            throw new NotFoundException("Такого рейтинга не существует");
+            throw new NotFoundException("Указанного рейтинга не существует");
         }
         Long id = insert(INSERT_FILM_QUERY,
                 film.getName(),
@@ -87,7 +87,7 @@ public class FilmDbStorage extends BaseRepository implements FilmStorage {
         if (film.getGenres() != null) {
             for (Genre genre : film.getGenres()) {
                 if (genre.getId() > getGenresCount()) {
-                    throw new NotFoundException("Жанра с таким id не существует");
+                    throw new NotFoundException("Жанра с указанным id не существует");
                 }
             }
             Set<Genre> genres = new HashSet<>(film.getGenres());
@@ -120,9 +120,7 @@ public class FilmDbStorage extends BaseRepository implements FilmStorage {
 
     @Override
     public Optional<Film> removeLike(Long filmId, Long userId) {
-        //Film film = findFilmById(filmId).get();
         update(REMOVE_LIKE_QUERY, filmId, userId);
-        //film.removeLike(userId);
         return Optional.of(findFilmById(filmId).get());
     }
 
@@ -139,8 +137,6 @@ public class FilmDbStorage extends BaseRepository implements FilmStorage {
         List<Genre> filmGenres = new ArrayList<>();
         for (Long genreId : filmGenresId) {
             Genre genre = jdbc.queryForObject("SELECT * FROM genres WHERE genre_id = ?", new GenreRowMapper(), genreId);
-            //Genre genre = new Genre();
-            //genre.setId(genreId);
             filmGenres.add(genre);
         }
         return filmGenres;
