@@ -11,7 +11,7 @@ import java.util.List;
 @RequestMapping("/films")
 public class FilmController {
     private final String likePath = "/{id}/like/{userId}";
-    private FilmService filmService;
+    private final FilmService filmService;
 
     @Autowired
     public FilmController(FilmService filmService) {
@@ -25,27 +25,27 @@ public class FilmController {
 
     @GetMapping("/{filmId}")
     public Film findFilmById(@PathVariable Long filmId) {
-        return filmService.findFilmById(filmId);
+        return filmService.findFilmById(filmId).get();
     }
 
     @PostMapping
     public Film create(@RequestBody Film film) {
-        return filmService.createFilm(film);
+        return filmService.createFilm(film).get();
     }
 
     @PutMapping
     public Film update(@RequestBody Film film) {
-        return filmService.updateFilm(film);
+        return filmService.updateFilm(film).get();
     }
 
     @PutMapping(likePath)
     public Film likeFilm(@PathVariable Long id, @PathVariable Long userId) {
-        return filmService.likeFilm(id, userId);
+        return filmService.likeFilm(id, userId).get();
     }
 
     @DeleteMapping(likePath)
     public Film removeLike(@PathVariable Long id, @PathVariable Long userId) {
-        return filmService.removeLike(id, userId);
+        return filmService.removeLike(id, userId).get();
     }
 
     @GetMapping("/popular")

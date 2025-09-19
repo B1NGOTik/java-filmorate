@@ -1,11 +1,13 @@
 package ru.yandex.practicum.filmorate.model;
 
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+@RequiredArgsConstructor
 @Data
 public class Film {
     private Long id;
@@ -13,7 +15,13 @@ public class Film {
     private String description;
     private LocalDate releaseDate;
     private Long duration;
-    private Set<Long> likes = new HashSet<>();
+    private Mpa mpa = new Mpa();
+    private List<Genre> genres;
+    private Set<Long> likes;
+
+    public void setMpaId(Long id) {
+        mpa.setId(id);
+    }
 
     public Long addLike(Long id) {
         likes.add(id);
@@ -24,4 +32,5 @@ public class Film {
         likes.remove(id);
         return id;
     }
+
 }
